@@ -21,11 +21,8 @@ def search_name_in_live_videos(name: str):
 
     for row in rows:
         raw_text = row.get("raw_text") or ""
-        # Get matching excerpt (defaults to 2 lines of context)
         excerpt = get_matched_excerpt(raw_text, name)
-        # Classify match strength
         match_type = detect_match_type(excerpt, name)
-        # Highlighted full description
         highlighted_desc = highlight_name_in_text(row.get("description") or "", name)
 
         results.append({

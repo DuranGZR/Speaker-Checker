@@ -2,7 +2,7 @@ import streamlit as st
 import datetime
 import html
 
-# Attempt to import database and service modules
+
 try:
     from db import init_db, count_live_videos
     from youtube_service import sync_youtube_live_videos
@@ -13,15 +13,14 @@ except ImportError as err:
     db_import_success = False
     db_import_error = str(err)
 
-# Page Configuration
+
 st.set_page_config(
     page_title="Konuşmacı Geçmiş Kontrol Sistemi",
-    page_icon="🎙️",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# Custom CSS for Black, Bordeaux, White Theme (No Glows, Matte Solid Colors)
+
 custom_css = """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap');
@@ -401,9 +400,9 @@ div[data-testid="stForm"] {
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
-# Verify Imports
+
 if not db_import_success:
-    st.error("🚨 Kütüphane Yükleme Hatası!")
+    st.error("Kütüphane Yükleme Hatası!")
     st.markdown(f"""
     Bağımlı Python dosyaları bulunamadı: `{db_import_error}`
     
@@ -411,7 +410,7 @@ if not db_import_success:
     """)
     st.stop()
 
-# Initialize Database on Startup
+
 db_ready = False
 try:
     init_db()
@@ -420,13 +419,13 @@ except Exception as e:
     db_ready = False
     db_error_msg = str(e)
 
-# Main Application Layout
-st.markdown("<h1>🎙️ Konuşmacı Geçmiş Kontrol Sistemi</h1>", unsafe_allow_html=True)
-st.markdown("<p class='sub-title'>YouTube canlı yayın açıklamalarında otomatik konuşmacı ve isim tarama sistemi (MVP)</p>", unsafe_allow_html=True)
 
-# Database Error Notice
+st.markdown("<h1>Geçmiş Konuşmacı Kontrol Sistemi</h1>", unsafe_allow_html=True)
+st.markdown("<p class='sub-title'>YouTube canlı yayın açıklamalarında otomatik konuşmacı ve isim tarama sistemi.</p>", unsafe_allow_html=True)
+
+
 if not db_ready:
-    st.error("🚨 Veritabanı Bağlantı Hatası!")
+    st.error("Veritabanı Bağlantı Hatası!")
     st.markdown(f"""
     PostgreSQL veritabanına bağlantı sağlanamadı.
     
@@ -442,19 +441,19 @@ if not db_ready:
     """)
     st.stop()
 
-# TABBED INTERFACE (Solve Mobile view issue by removing sidebar)
-tab_search, tab_admin = st.tabs(["🔍 Konuşmacı Ara", "⚙️ Yönetici Paneli"])
 
-# TAB 1: Search
+tab_search, tab_admin = st.tabs(["Konuşmacı Ara", "Yönetici Paneli"])
+
+
 with tab_search:
-    st.subheader("🔍 İsim Arama & Doğrulama")
+    st.subheader("İsim Arama & Doğrulama")
     st.write("Geçmiş canlı yayınlarda aramak istediğiniz kişinin adını ve soyadını yazın.")
 
-    # Form to trigger search with Enter or Button click
+    
     with st.form("search_form"):
         search_name = st.text_input(
             "Aranacak Kişi Adı",
-            placeholder="Örn: Gamze Akman Acar",
+            placeholder="Örn: Sercan Noyan Germiyanoğlu",
             label_visibility="collapsed"
         )
         submit_search = st.form_submit_button("Canlı Yayınlarda Ara")
@@ -474,7 +473,7 @@ with tab_search:
             else:
                 for item in results_data['results']:
                     badge_class = "badge-strong" if item['match_type'] == "STRONG_SPEAKER_PATTERN" else "badge-normal"
-                    badge_text = "🔥 Konuşmacı Olabilir (Kalıp Eşleşti)" if item['match_type'] == "STRONG_SPEAKER_PATTERN" else "📝 İsim Açıklamada Geçiyor"
+                    badge_text = "Konuşmacı Olabilir (Kalıp Eşleşti)" if item['match_type'] == "STRONG_SPEAKER_PATTERN" else "İsim Açıklamada Geçiyor"
                     title = html.escape(item["title"])
                     date_value = item['actual_start_time'].strftime('%d %B %Y, %H:%M') if isinstance(item['actual_start_time'], datetime.datetime) else item['actual_start_time']
                     date_text = html.escape(str(date_value or "Tarih bilgisi yok"))
@@ -495,25 +494,25 @@ with tab_search:
                             <div>
                                 <div class="{badge_class}">{badge_text}</div>
                                 <h3 class="result-title">{title}</h3>
-                                <div class="result-meta">📅 <b>Yayın Tarihi:</b> {date_text}</div>
+                                <div class="result-meta"><b>Yayın Tarihi:</b> {date_text}</div>
                                 <div class="description-title">Eşleşen bölüm</div>
                                 <div class="excerpt-box">{excerpt}</div>
                                 <details class="description-details">
                                     <summary>Yayın açıklamasının tamamı</summary>
                                     <div class="description-box">{full_description}</div>
                                 </details>
-                                <a class="watch-link" href="{video_url}" target="_blank" rel="noopener noreferrer">📺 YouTube'da İzle / Aç</a>
+                                <a class="watch-link" href="{video_url}" target="_blank" rel="noopener noreferrer">YouTube'da İzle / Aç</a>
                             </div>
                         </div>
                     </article>
                     """, unsafe_allow_html=True)
 
-# TAB 2: Admin Panel
+
 with tab_admin:
-    st.subheader("⚙️ Yönetici Paneli")
+    st.subheader("Yönetici Paneli")
     st.write("Verileri YouTube API üzerinden tazelemek ve durum takibi yapmak için burayı kullanın.")
     
-    # Custom HTML Metric Card
+    
     live_count = count_live_videos()
     st.markdown(f"""
     <div class="metric-card">
@@ -524,10 +523,10 @@ with tab_admin:
     
     st.markdown("---")
     
-    # Sync Button
+    
     st.markdown("#### Veri Güncelleme")
     st.write("YouTube kanalındaki en son canlı yayın kayıtlarını senkronize edin:")
-    sync_clicked = st.button("🔄 YouTube Canlı Yayınlarını Güncelle")
+    sync_clicked = st.button("YouTube Canlı Yayınlarını Güncelle")
     
     if sync_clicked:
         with st.spinner("Canlı yayınlar çekiliyor... Bu işlem kanal boyutuna göre biraz sürebilir..."):
@@ -535,13 +534,11 @@ with tab_admin:
                 sync_result = sync_youtube_live_videos()
                 st.success("Senkronizasyon Başarıyla Tamamlandı!")
                 st.balloons()
-                # Display statistics
                 st.markdown(f"""
                 - **Taranan Video:** {sync_result['total_video_count']}
                 - **Eklenen/Güncellenen Canlı Yayın:** {sync_result['live_saved_count']}
                 - **Atlanan Normal Video:** {sync_result['skipped_non_live_count']}
                 """)
-                # Force rerun to update metric
                 st.rerun()
             except Exception as sync_err:
                 st.error(f"Güncelleme sırasında hata oluştu: {sync_err}")

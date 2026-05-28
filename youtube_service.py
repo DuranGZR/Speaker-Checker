@@ -25,7 +25,7 @@ def get_uploads_playlist_id():
     url = f"{BASE_URL}/channels"
     clean_channel = CHANNEL_ID.strip()
 
-    # Strategy 1: Direct channel ID (starts with UC)
+    
     if clean_channel.startswith("UC"):
         params = {"part": "contentDetails", "id": clean_channel, "key": API_KEY}
         response = requests.get(url, params=params, timeout=20)
@@ -34,7 +34,7 @@ def get_uploads_playlist_id():
         if items:
             return items[0]["contentDetails"]["relatedPlaylists"]["uploads"]
 
-    # Strategy 2: forHandle (with @ prefix)
+   
     handle = clean_channel if clean_channel.startswith("@") else f"@{clean_channel}"
     params = {"part": "contentDetails", "forHandle": handle, "key": API_KEY}
     response = requests.get(url, params=params, timeout=20)
@@ -43,7 +43,7 @@ def get_uploads_playlist_id():
     if items:
         return items[0]["contentDetails"]["relatedPlaylists"]["uploads"]
 
-    # Strategy 3: forHandle without @ (some channels need this)
+    
     handle_no_at = handle.lstrip("@")
     params = {"part": "contentDetails", "forHandle": handle_no_at, "key": API_KEY}
     response = requests.get(url, params=params, timeout=20)
@@ -52,7 +52,7 @@ def get_uploads_playlist_id():
     if items:
         return items[0]["contentDetails"]["relatedPlaylists"]["uploads"]
 
-    # Strategy 4: forUsername (legacy, works for some older channels)
+    
     params = {"part": "contentDetails", "forUsername": handle_no_at, "key": API_KEY}
     response = requests.get(url, params=params, timeout=20)
     response.raise_for_status()

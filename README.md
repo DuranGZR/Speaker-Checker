@@ -1,4 +1,4 @@
-# 🎙️ Speaker Checker (Konuşmacı Geçmiş Kontrol Sistemi)
+# Speaker Checker (Konuşmacı Geçmiş Kontrol Sistemi)
 
 Bu proje, bir YouTube kanalındaki geçmiş **tamamlanmış canlı yayınları** YouTube Data API v3 kullanarak çeker, PostgreSQL veritabanına kaydeder ve kullanıcı tarafından girilen isimleri bu videoların başlık ve açıklamaları içinde akıllı bir şekilde arar.
 
@@ -6,7 +6,7 @@ Sistem, ismin geçtiği açıklamayı çevreleyen bağlam satırlarıyla birlikt
 
 ---
 
-## 🛠️ Kurulum ve Çalıştırma
+## Kurulum ve Çalıştırma
 
 ### 1. Bağımlılıkların Yüklenmesi
 
@@ -43,7 +43,7 @@ DB_USER=postgres
 DB_PASSWORD=your_postgres_password_here
 ```
 
-> 💡 **Önemli:** Arama yapmadan önce PostgreSQL sunucunuzda `speaker_checker` isimli boş bir veritabanı oluşturmuş olmalısınız (`CREATE DATABASE speaker_checker;`). Tablolar, indeksler ve uzantılar uygulama ilk çalıştığında otomatik olarak oluşturulacaktır.
+> **Önemli:** Arama yapmadan önce PostgreSQL sunucunuzda `speaker_checker` isimli boş bir veritabanı oluşturmuş olmalısınız (`CREATE DATABASE speaker_checker;`). Tablolar, indeksler ve uzantılar uygulama ilk çalıştığında otomatik olarak oluşturulacaktır.
 
 ### 3. Uygulamayı Başlatma
 
@@ -58,7 +58,7 @@ Tarayıcınızda otomatik olarak `http://localhost:8501` adresi açılacaktır.
 
 ---
 
-## 🔑 YouTube API Key ve Kanal ID Nasıl Alınır?
+## YouTube API Key ve Kanal ID Nasıl Alınır?
 
 ### 1. YouTube Data API Key Alımı (Adım Adım)
 
@@ -84,7 +84,7 @@ Tarayıcınızda otomatik olarak `http://localhost:8501` adresi açılacaktır.
 
 Kanal ID'si `UC` ile başlayan 24 karakterli benzersiz bir kimliktir. Bunu bulmak için 3 pratik yöntem vardır:
 
-#### Yöntem A: Doğrudan Handle Kullanımı (En Kolayı! 🚀)
+#### Yöntem A: Doğrudan Handle Kullanımı (En Kolayı!)
 Geliştirdiğimiz sistem **YouTube Handle (@)** desteğine sahiptir. Bu sayede hiçbir arama yapmadan kanalın kullanıcı adını doğrudan `.env` dosyasına yazabilirsiniz.
 * Örnek: `YOUTUBE_CHANNEL_ID=@HuaweiDeveloperGroupsTurkiye` veya `YOUTUBE_CHANNEL_ID=@youtube`
 
@@ -101,7 +101,7 @@ Geliştirdiğimiz sistem **YouTube Handle (@)** desteğine sahiptir. Bu sayede h
 
 ---
 
-## 📂 Dosya Yapısı ve Görevleri
+## Dosya Yapısı ve Görevleri
 
 * `app.py`: Siyah/Kırmızı/Beyaz renk şemasına sahip, modern Streamlit kullanıcı arayüzü.
 * `youtube_service.py`: YouTube API ile kanal playlistlerini gezen, videoların canlı yayın detaylarını süzüp çeken entegrasyon.

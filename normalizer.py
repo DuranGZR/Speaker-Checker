@@ -11,7 +11,7 @@ def normalize_text(text: str) -> str:
     if not text:
         return ""
 
-    # Pre-replace uppercase Turkish characters to avoid locale-specific lowercasing issues
+    
     text = text.replace("İ", "i").replace("I", "ı")
     text = text.strip().lower()
 
@@ -25,15 +25,13 @@ def normalize_text(text: str) -> str:
         "â": "a",
         "î": "i",
         "û": "u",
-        "i̇": "i",  # handle combining dot if any
+        "i̇": "i",  
     }
 
     for tr_char, en_char in replacements.items():
         text = text.replace(tr_char, en_char)
 
-    # Replace non-alphanumeric characters with space
     text = re.sub(r"[^a-z0-9\s]", " ", text)
-    # Collapse whitespace
     text = re.sub(r"\s+", " ", text)
 
     return text.strip()

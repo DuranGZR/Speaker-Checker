@@ -16,7 +16,6 @@ def highlight_name_in_text(raw_text: str, searched_name: str) -> str:
     for line in lines:
         normalized_line = normalize_text(line)
         if normalized_name in normalized_line:
-            # This line contains the match — highlight the whole line
             escaped = html.escape(line)
             result_lines.append(
                 f'<span style="background:rgba(230,33,23,0.25);border-left:3px solid #e62117;padding:2px 6px;display:inline-block;width:100%;border-radius:3px;">{escaped}</span>'

@@ -26,13 +26,10 @@ def init_db():
     try:
         conn = get_connection()
         with conn.cursor() as cur:
-            # Enable the pg_trgm extension for fast ILIKE/trigram searches.
-            # This requires superuser privileges. If it fails, we warn but continue.
             try:
                 cur.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm;")
             except Exception as ext_err:
                 print(f"Warning: Could not create pg_trgm extension: {ext_err}")
-                # Rollback current transaction to keep the connection usable
                 conn.rollback()
 
             cur.execute("""
@@ -52,8 +49,6 @@ def init_db():
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
             """)
-
-            # Try to create the GIN index if pg_trgm was successfully enabled
             try:
                 cur.execute("""
                     CREATE INDEX IF NOT EXISTS idx_live_videos_normalized_raw_text_trgm
